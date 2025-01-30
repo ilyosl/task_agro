@@ -19,15 +19,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return response()->json($this->employeeService->getAllEmployees(), 200);
     }
 
     /**
@@ -35,7 +27,7 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
-        //
+        return response()->json($this->employeeService->createEmployee($request->validated()), 201);
     }
 
     /**
@@ -47,19 +39,11 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Employee $employee)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
-        //
+        return $this->employeeService->updateEmployee($employee, $request->validated());
     }
 
     /**
@@ -67,6 +51,6 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //
+        return $this->employeeService->deleteEmployee($employee);
     }
 }

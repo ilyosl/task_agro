@@ -11,7 +11,7 @@ class Company extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'email', 'phone', 'address','director','website'
+        'user_id', 'name', 'email', 'phone', 'address','director','website'
     ];
 
     public function employees(): HasMany {
