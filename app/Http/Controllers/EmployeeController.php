@@ -19,7 +19,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return response()->json($this->employeeService->getAllEmployees(), 200);
+        return $this->employeeService->getAllEmployees();
     }
 
     /**
@@ -27,7 +27,7 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
-        return response()->json($this->employeeService->createEmployee($request->validated()), 201);
+        return $this->employeeService->createEmployee($request->validated());
     }
 
     /**
@@ -35,7 +35,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
+        return $this->employeeService->getEmployee($employee);
     }
 
     /**

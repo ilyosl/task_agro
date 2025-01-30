@@ -9,14 +9,21 @@ class EmployeeService
 {
     public function getAllEmployees() {
         if(auth()->user()->hasRole('admin')){
-            return Employee::all();
+            return response()->json(Employee::all());
         }
-        return Employee::query()->where('company_id', auth()->user()->id)->get();
+        return response()->json(Employee::query()->where('company_id', auth()->user()->id)->get());
+    }
+
+    public function getEmployee(Employee $employee) {
+        if($this->checkAccess($employee)){
+            return response()->json(['message' => 'Access denied'], 403);
+        }
+        return response()->json($employee);
     }
 
     public function createEmployee(array $data) {
         $data['company_id'] = auth()->user()->id;
-        return Employee::create($data);
+        return response()->json(Employee::create($data),201);
     }
     public function updateEmployee(Employee $employee, array $data): JsonResponse
     {
@@ -31,7 +38,7 @@ class EmployeeService
             return response()->json(['message' => 'Access denied'], 403);
         }
         $employee->delete();
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Employee deleted'], 204);
     }
 
     public function checkAccess(Employee $employee)

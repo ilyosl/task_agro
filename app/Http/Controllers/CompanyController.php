@@ -21,14 +21,14 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        return response()->json($this->companyService->getAllCompanies(), 200);
+        return $this->companyService->getAllCompanies();
     }
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreCompanyRequest $request)
     {
-        return response()->json($this->companyService->createCompany($request->validated()), 201);
+        return $this->companyService->createCompany($request->validated());
     }
 
     /**

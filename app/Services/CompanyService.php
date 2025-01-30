@@ -10,9 +10,9 @@ class CompanyService
     public function getAllCompanies()
     {
         if(auth()->user()->hasRole('company')){
-            return Company::query()->where('user_id', auth()->user()->id)->get();
+            return response()->json(Company::query()->where('user_id', auth()->user()->id)->get());
         }
-        return Company::all();
+        return response()->json(Company::all());
     }
 
     public function getCompany(Company $company): JsonResponse
@@ -23,8 +23,11 @@ class CompanyService
         return response()->json($company);
     }
     public function createCompany(array $data) {
-        $data['user_id'] = auth()->user()->id;
-        return Company::create($data);
+
+        if(!isset($data['user_id'])) {
+            $data['user_id'] = auth()->user()->id;
+        }
+        return response()->json(Company::create($data), 201);
     }
 
     public function updateCompany(Company $company, array $data) {
@@ -35,7 +38,7 @@ class CompanyService
     }
 
     public function deleteCompany(Company $company) {
-        if($this->checkAccess($company)){
+        if(!auth()->user()->hasRole('admin') && $this->checkAccess($company)){
             return response()->json(['message' => 'Access denied'], 403);
         }
         $company->delete();
